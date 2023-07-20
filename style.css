@@ -1,0 +1,82 @@
+*{
+	margin: 0; /*모든 세팅 기본값*/
+	padding: 0; /*모든 세팅 기본값*/
+	font-family: verdana;   /*모든 글자 폰트*/
+}
+a{ 
+	text-decoration: none; /*텍스트 밑줄 없애기*/
+	color: inherit; /*부모의 색상값 물려받기(링크의 파랑색 또는 보라색 지우기)*/
+}
+ul,li{
+	list-style: none;   /* 글머리 지우기(메뉴명단 동그라미 지우기) */
+}
+
+/* header*/
+
+header{
+	height : 80px;  /** 헤더의 높이를 80px 로 고정 (로고와 메뉴를 왼쪽과 오른쪽으로 나열하여 height을 적용해야 하단에 border(라인)이 생김*/
+	border-bottom: 1px solid #ddd;
+}
+header > div{   
+	width: 90%;
+	min-width: 1000px;
+	max-width: 1200px;
+	height: 80px;
+	margin: 0 auto;  /*가운데 정렬*/
+}
+header .logo{
+	float: left;  /*왼쪽에 위치(떠라)*/
+}
+header .logo img{
+	height: 60px;
+	margin-top: 10px; /* 로고의 top 간격을 10px*/
+}
+header .menu{
+	float: right; /*오른쪽에 위치(떠라)*/
+}
+header .menu li{
+	display: inline-block;  /*가로로 배열하기(메뉴)*/
+	margin-left: 30px; /*왼쪽으로 30씩 간격 주기*/
+	margin-top: 35px; /*아래로 35 px 간격*/
+}
+header .menu li:first-child{   /* header에서 클래스가 .menu 이고 li 중 첫번째 아이(메뉴1)*/
+	margin-left: 0px; /*메뉴 첫번째는 왼쪽 간격을 0으로*/
+}
+
+/* container */
+
+#idx_top{  /*헤더아래 첫번째 인덱스(그레이컬러)*/
+	width : 100%;
+	padding: 150px 0;
+	background: url(idx_top_bg.jpg) no-repeat 50% 50% /cover;       /*인덱스 top 백그라운드 이미지 삽입!!*/
+	text-align: center;
+}
+#idx_top strong, /*인덱스 탑의 스트롱 태그와 P(문단)태그의 컬러 삽입*/
+#idx_top p{    
+	color : #ddd;
+}
+#idx_top strong{
+	font-size: 50px;
+	letter-spacing: -3px; /*글자 간격 줄이기*/
+	
+}
+#idx_top strong span{
+	color : rgb(131, 104, 77);
+}
+#idx_top p{
+	margin-top: 15px;
+	font-size: 30px;
+}
+/**.menu_wrap .dep1{
+	font-size: 0;
+}
+.menu_wrap .dep1 > li {
+	display: inline-block;
+	width:  100px;
+	background: #ddd;
+	text-align: center;
+	font-size: 16px;
+}
+.menu_wrap .dep2 {
+	display: none;
+}*/
