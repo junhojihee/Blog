@@ -2,12 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>지도와 마커 페이지</title>
+    <title>여러 주소 일괄로 마커 표시하기</title>
 </head>
 <body>
     <div id="map" style="width:100%;height:500px;"></div>
-    
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY"></script>
+    <textarea id="addresses" placeholder="여러 주소를 줄바꿈으로 입력하세요"></textarea>
+    <textarea id="companyNames" placeholder="여러 회사명을 줄바꿈으로 입력하세요"></textarea>
+    <textarea id="remarks" placeholder="비고1을 줄바꿈으로 입력하세요"></textarea>
+    <textarea id="remarks2" placeholder="비고2을 줄바꿈으로 입력하세요"></textarea>
+    <textarea id="remarks3" placeholder="비고3을 줄바꿈으로 입력하세요"></textarea>
+    <textarea id="remarks4" placeholder="비고4을 줄바꿈으로 입력하세요"></textarea>
+    <button onclick="addMarkers()">일괄 추가</button>
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b72dfe6dbe62fc2ba626c0911fcc37e"></script>
     <script>
         var mapContainer = document.getElementById('map'),
             mapOption = {
@@ -18,33 +25,89 @@
         var map = new kakao.maps.Map(mapContainer, mapOption);
         var markers = [];
 
-        // URL에서 주소 파라미터를 가져오기
-        var urlParams = new URLSearchParams(window.location.search);
-        var addressesJson = urlParams.get('addresses');
+        function addMarkers() {
+            var addresses = document.getElementById('addresses').value.split('\n'); // 주소들을 줄바꿈으로 분리
+            var companyNames = document.getElementById('companyNames').value.split('\n'); // 회사명들을 줄바꿈으로 분리
+            var remarks = document.getElementById('remarks').value.split('\n'); // 비고1
+            var remarks2 = document.getElementById('remarks2').value.split('\n'); // 비고2
+            var remarks3 = document.getElementById('remarks3').value.split('\n'); // 비고3
+            var remarks4 = document.getElementById('remarks4').value.split('\n'); // 비고4
 
-        if (addressesJson) {
-            var addresses = JSON.parse(addressesJson); // JSON 문자열을 배열로 파싱
             var geocoder = new kakao.maps.services.Geocoder();
 
-            addresses.forEach(function(address) {
-                geocoder.addressSearch(address, function(result, status) {
-                    if (status === kakao.maps.services.Status.OK) {
-                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: coords,
-                            title: address // 주소를 마커 타이틀로 설정
-                        });
+            if (addresses.length !== companyNames.length) {
+                alert('주소 개수와 회사명 개수가 일치해야 합니다.');
+                return;
+            }
 
-                        markers.push(marker);
+            if (addresses.length !== remarks.length) {
+                alert('주소 개수와 비고1 개수가 일치해야 합니다.');
+                return;
+            }
 
-                        // 중심 위치 설정 (마지막 주소의 위치를 중심으로 설정)
-                        map.setCenter(coords);
-                    } else {
-                        alert('주소를 찾을 수 없습니다.');
-                    }
+            if (addresses.length !== remarks2.length) {
+                alert('주소 개수와 비고2 개수가 일치해야 합니다.');
+                return;
+            }
+
+            if (addresses.length !== remarks3.length) {
+                alert('주소 개수와 비고3 개수가 일치해야 합니다.');
+                return;
+            }
+
+            if (addresses.length !== remarks4.length) {
+                alert('주소 개수와 비고4 개수가 일치해야 합니다.');
+                return;
+            }
+
+            for (var i = 0; i < addresses.length; i++) {
+                var address = addresses[i];
+                var companyName = companyNames[i];
+                var remark = remarks[i];
+                var remark2 = remarks2[i];
+                var remark3 = remarks3[i];
+                var remark4 = remarks4[i];
+
+                geocoder.addressSearch(address, createMarker.bind(null, companyName, remark, remark2, remark3, remark4));
+            }
+
+            // 입력란 초기화
+            document.getElementById('addresses').value = '';
+            document.getElementById('companyNames').value = '';
+            document.getElementById('remarks').value = '';
+            document.getElementById('remarks2').value = '';
+            document.getElementById('remarks3').value = '';
+            document.getElementById('remarks4').value = '';
+        }
+
+        function createMarker(companyName, remark, remark2, remark3, remark4, result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords,
                 });
-            });
+
+                var content = '<div style="padding:5px;">' + companyName + '<br>' + result[0].address.address_name + '<br>';
+                content += '비고1: ' + remark + '<br>';
+                content += '비고2: ' + remark2 + '<br>';
+                content += '비고3: ' + remark3 + '<br>';
+                content += '비고4: ' + remark4 + '</div>';
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: content
+                });
+
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    infowindow.open(map, marker);
+                });
+
+                markers.push(marker);
+
+                map.setCenter(coords);
+            } else {
+                alert('주소를 찾을 수 없습니다.');
+            }
         }
     </script>
 </body>
