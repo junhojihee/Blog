@@ -10,9 +10,11 @@
 
     <script>
         function goToMapPage() {
-            var addresses = document.getElementById('addresses').value;
-            // 입력한 주소들을 URL 파라미터로 지도 페이지로 전달
-            window.location.href = 'map_page.html?addresses=' + encodeURIComponent(addresses);
+            var addresses = document.getElementById('addresses').value.split('\n'); // 줄바꿈으로 주소 구분
+            var addressesJson = JSON.stringify(addresses); // 배열을 JSON 문자열로 변환
+
+            // 입력한 주소를 JSON 문자열로 URL 파라미터로 전달
+            window.location.href = 'map_page.html?addresses=' + encodeURIComponent(addressesJson);
         }
     </script>
 </body>

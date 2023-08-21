@@ -5,9 +5,9 @@
     <title>지도와 마커 페이지</title>
 </head>
 <body>
-    <div id="map" style="width:100%;height:700px;"></div>
+    <div id="map" style="width:100%;height:500px;"></div>
     
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b72dfe6dbe62fc2ba626c0911fcc37e"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY"></script>
     <script>
         var mapContainer = document.getElementById('map'),
             mapOption = {
@@ -20,13 +20,13 @@
 
         // URL에서 주소 파라미터를 가져오기
         var urlParams = new URLSearchParams(window.location.search);
-        var addresses = urlParams.get('addresses');
+        var addressesJson = urlParams.get('addresses');
 
-        if (addresses) {
-            var addressArray = addresses.split('\n');
+        if (addressesJson) {
+            var addresses = JSON.parse(addressesJson); // JSON 문자열을 배열로 파싱
             var geocoder = new kakao.maps.services.Geocoder();
 
-            addressArray.forEach(function(address) {
+            addresses.forEach(function(address) {
                 geocoder.addressSearch(address, function(result, status) {
                     if (status === kakao.maps.services.Status.OK) {
                         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
