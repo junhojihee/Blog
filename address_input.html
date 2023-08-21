@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>여러 주소 일괄 입력 페이지</title>
+</head>
+<body>
+    <textarea id="addresses" placeholder="여러 주소를 줄바꿈으로 입력하세요"></textarea>
+    <button onclick="goToMapPage()">지도로 이동</button>
+
+    <script>
+        function goToMapPage() {
+            var addresses = document.getElementById('addresses').value;
+            // 입력한 주소들을 URL 파라미터로 지도 페이지로 전달
+            window.location.href = 'map_page.html?addresses=' + encodeURIComponent(addresses);
+        }
+    </script>
+</body>
+</html>
