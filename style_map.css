@@ -1,0 +1,25 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+ul,il{
+	list-style: none;
+}
+a{
+	text-decoration: none;   <//텍스트 데코(밑줄 없음)>
+	color: inherit;
+}
+
+.menu_wrap .dep1{
+	font-size: 0;
+}
+.menu_wrap .dep1 > li {
+	display: inline-block;
+	width:  100px;
+	background: #ddd;
+	text-align: center;
+	font-size: 16px;
+}
+.menu_wrap .dep2 {
+	display: none;
+}
